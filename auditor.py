@@ -1,23 +1,28 @@
-stock_inventory = 0
-failed_entries = 0
+inventory = 0
+failed_entries = 0 
 
-while True:
-    user_input = input("Enter stock quantity or type quit: ")
-
-    if user_input.lower() == "quit":
-        print("Total units processed:", stock_inventory)
-        print("Total number of failed entries:", failed_entries)
+while True: 
+    stock_quantity = input("Enter Stock Quantity (Type 'quit' to quit): ")
+    if stock_quantity.lower() == "quit": 
+        print("Total Units Processed:", inventory)
         break
 
-    elif user_input.isdigit():
-        stock_inventory = stock_inventory + int(user_input)
-        print("The total units processed is", stock_inventory)
+    if not stock_quantity.isdigit():
+        print("The number is rejected.")
+        failed_entries += 1
+        continue
+    
+    actual = int(stock_quantity)
+    inventory += actual
 
-        if stock_inventory > 500:
-            print("Alert: The total inventory exceeds 500 units.")
-            print("Total units processed:", stock_inventory)
-            break
+    if actual < 0:
+        print("Rejects negative numbers")
+        failed_entries += 1
+        continue
 
-    else:
-        print("Entry rejected. Please enter a positive integer.")
-        failed_entries = failed_entries + 1
+    elif inventory > 500:
+        print("Alert, overloaded")
+        inventory -= actual
+        break
+print("Total Units Processed: ", inventory)
+print("Number of Failed/Refected Entries: ", failed_entries)
