@@ -19,5 +19,7 @@ def calculate_tax(amount):
     tax = amount * 0.10
     return tax
 
-
-
+def generate_report(total_units, failed_attempts):
+    print("\n--- Final Report ---")
+    print("Total units processed:", total_units)
+    print("Total number of failed entries:", failed_attempts)
