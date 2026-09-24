@@ -28,9 +28,24 @@ def load_inventory():
     print("Transaction history:", saved_history)
 
     return saved_total, saved_history
+
+def save_inventory(stock_inventory, transaction_history):
+    inventory_file = open("inventory.txt", "w")
+
+    inventory_file.write(str(stock_inventory) + "\n")
+
+    for index in range(len(transaction_history)):
+        inventory_file.write(str(transaction_history[index]))
+
+        if index < len(transaction_history) - 1:
+            inventory_file.write(",")
+
+    inventory_file.close()
+
+    print("Inventory saved successfully.")
     
 def get_valid_input():
-    user_input = input("Enter stock quantity or type quit: ")
+    user_input = input("Enter stock quantity or type quit: ").strip()
 
     if user_input.lower() == "quit":
         return "quit"
@@ -64,6 +79,10 @@ while True:
     stock_quantity = get_valid_input()
 
     if stock_quantity == "quit":
+        save_inventory(
+            stock_inventory,
+            transaction_history
+        )
         break
 
     elif stock_quantity == "invalid":
