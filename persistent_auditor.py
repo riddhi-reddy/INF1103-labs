@@ -79,11 +79,14 @@ while True:
     else:
         stock_inventory = process_delivery(stock_inventory,stock_quantity)
 
+        transaction_history.append(stock_quantity)
+
         tax = calculate_tax(stock_quantity)
         deliveries_processed = deliveries_processed + 1
 
         print("The total units processed is", stock_inventory)
         print("Tax for this delivery is", tax)
+        print("Transaction history:", transaction_history)
 
 
 print("Total deliveries processed:", deliveries_processed)
