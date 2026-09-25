@@ -24,7 +24,9 @@ def load_inventory():
         saved_history = history_line.split(",")
 
         for index in range(len(saved_history)):
-            saved_history[index] = int(saved_history[index])
+            saved_history[index] = int(
+                saved_history[index]
+            )
 
     print("Previous inventory loaded successfully.")
     print("Current inventory:", saved_total)
@@ -53,7 +55,7 @@ def save_inventory(stock_inventory, transaction_history):
 
 def get_valid_input():
     user_input = input(
-        "Enter stock quantity or type quit: "
+        "\nEnter stock quantity or type quit: "
     ).strip()
 
     if user_input.lower() == "quit":
@@ -66,6 +68,7 @@ def get_valid_input():
         print(
             "Entry rejected. Please enter a positive integer."
         )
+
         return "invalid"
 
 
@@ -85,8 +88,8 @@ def generate_report(
     total_units,
     failed_attempts,
     deliveries_processed,
-    previous_transactions,
-    transaction_history
+    previous_transaction_history,
+    latest_transaction_history
 ):
     print("\n--- Final Report ---")
     print("Total units processed:", total_units)
@@ -98,32 +101,20 @@ def generate_report(
         "Total number of failed entries:",
         failed_attempts
     )
-
-    print("\n--- Previous Transaction Dictionary ---")
-
-    if len(previous_transactions) == 0:
-        print("No previous transactions found.")
-
-    else:
-        print(previous_transactions)
-
-    print("\n--- Complete Transaction History ---")
-
-    if len(transaction_history) == 0:
-        print("No transactions recorded.")
-
-    else:
-        print(transaction_history)
+    print(
+        "Transaction history 1:",
+        previous_transaction_history
+    )
+    print(
+        "Latest Transaction History:",
+        latest_transaction_history
+    )
 
 
 stock_inventory, transaction_history = load_inventory()
 
-previous_transactions = {}
-
-for index in range(len(transaction_history)):
-    previous_transactions[index + 1] = (
-        transaction_history[index]
-    )
+previous_transaction_history = transaction_history.copy()
+latest_transaction_history = []
 
 failed_entries = 0
 deliveries_processed = 0
@@ -162,6 +153,7 @@ while True:
         )
 
         transaction_history.append(stock_quantity)
+        latest_transaction_history.append(stock_quantity)
 
         tax = calculate_tax(stock_quantity)
 
@@ -179,7 +171,7 @@ while True:
         )
         print(
             "Transaction history:",
-            transaction_history
+            latest_transaction_history
         )
 
 
@@ -187,6 +179,6 @@ generate_report(
     stock_inventory,
     failed_entries,
     deliveries_processed,
-    previous_transactions,
-    transaction_history
+    previous_transaction_history,
+    latest_transaction_history
 )
