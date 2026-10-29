@@ -16,5 +16,11 @@
         "name": "Keyboard",
         "price": 45.0,
         "stock": 25
+    },
+    {
+        "id": "P004",
+        "name": "mouse",
+        "price": 78.0,
+        "stock": 45
     }
 ]
