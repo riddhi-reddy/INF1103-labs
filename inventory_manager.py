@@ -1,44 +1,7 @@
-import json
 import math
-from pathlib import Path
 
-
-inventory_file = Path(__file__).resolve().parent / "inventory.json"
-
-
-def load_inventory():
-    if not inventory_file.exists():
-        print("inventory.json not found. Starting with empty inventory.")
-        return []
-
-    print("inventory.json found.")
-
-    with inventory_file.open("r", encoding="utf-8") as file:
-        inventory = json.load(file)
-
-    print("Inventory loaded successfully.")
-    return inventory
-
-
-def save_inventory(inventory):
-    try:
-        with inventory_file.open("w", encoding="utf-8") as file:
-            json.dump(inventory, file, indent=4)
-
-    except OSError as error:
-        print(f"Unable to save inventory: {error}")
-        return False
-
-    print("Inventory saved successfully to inventory.json.")
-    return True
-
-
-def search_product(inventory, product_id):
-    for product in inventory:
-        if product["id"] == product_id:
-            return product
-
-    return None
+from file_handler import load_inventory, save_inventory
+from product import Product
 
 
 def read_non_empty(prompt):
@@ -83,7 +46,7 @@ def add_product(inventory):
     print("\nAdd New Product")
     product_id = read_non_empty("Product ID: ").upper()
 
-    if search_product(inventory, product_id) is not None:
+    if inventory.search_product(product_id) is not None:
         print("Product ID already exists.")
         return
 
@@ -91,69 +54,46 @@ def add_product(inventory):
     price = read_price()
     stock = read_stock("Stock Quantity: ")
 
-    product = {
-        "id": product_id,
-        "name": name,
-        "price": price,
-        "stock": stock
-    }
+    product = Product(product_id, name, price, stock)
+    inventory.add_product(product)
 
-    inventory.append(product)
     print("Product added successfully!")
 
 
 def update_stock(inventory):
     print("\nUpdate Stock")
     product_id = read_non_empty("Enter Product ID: ").upper()
-    product = search_product(inventory, product_id)
+
+    product = inventory.search_product(product_id)
 
     if product is None:
         print("Product not found.")
         return
 
     print("\nProduct Found:")
-    print(f"Name: {product['name']}")
-    print(f"Current Stock: {product['stock']}")
+    print(f"Name: {product.get_name()}")
+    print(f"Current Stock: {product.get_stock()}")
 
-    product["stock"] = read_stock("New Stock Quantity: ")
+    quantity = read_stock("New Stock Quantity: ")
+    inventory.update_stock(product_id, quantity)
+
     print("Stock updated successfully!")
-
-
-def display_all(inventory):
-    if not inventory:
-        print("\nInventory is empty.")
-        return
-
-    print("\nCurrent Inventory")
-    print("-" * 60)
-
-    for product in inventory:
-        print(
-            f"ID: {product['id']} | "
-            f"Name: {product['name']} | "
-            f"Price: ${product['price']:.2f} | "
-            f"Stock: {product['stock']}"
-        )
-
-    print("-" * 60)
 
 
 def display_search_result(inventory):
     print("\nSearch Product")
     product_id = read_non_empty("Enter Product ID: ").upper()
-    product = search_product(inventory, product_id)
+
+    product = inventory.search_product(product_id)
 
     if product is None:
         print("Product not found.")
         return
 
     print("\nProduct Found")
-    print("-" * 40)
-    print(f"ID: {product['id']}")
-    print(f"Name: {product['name']}")
-    print(f"Price: ${product['price']:.2f}")
-    print(f"Stock: {product['stock']}")
-    print("-" * 40)
+    print("-" * 70)
+    product.display_information()
+    print("-" * 70)
 
 
 def display_menu():
@@ -175,7 +115,13 @@ def main():
     try:
         inventory = load_inventory()
 
-    except (OSError, json.JSONDecodeError) as error:
+    except (
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        AttributeError
+    ) as error:
         print(f"Unable to load inventory: {error}")
         print("Check inventory.json before running the program again.")
         return
@@ -185,7 +131,7 @@ def main():
         option = input("Enter option: ").strip()
 
         if option == "1":
-            display_all(inventory)
+            inventory.display_all()
 
         elif option == "2":
             add_product(inventory)
