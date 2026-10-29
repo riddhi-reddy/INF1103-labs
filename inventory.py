@@ -23,7 +23,7 @@ class Inventory:
 
         return None
 
-        def display_all(self):
+    def display_all(self):
         if not self.__products:
             print("\nInventory is empty.")
             return
