@@ -1,7 +1,7 @@
 import math
 
 from file_handler import load_inventory, save_inventory
-from product import Product
+from product import PhysicalProduct, DigitalProduct
 
 
 def read_non_empty(prompt):
@@ -41,9 +41,31 @@ def read_stock(prompt):
         except ValueError:
             print("Enter a whole number, such as 10.")
 
+#Add a helper for weight and download size
+def read_positive_number(prompt):
+    while True:
+        try:
+            value = float(input(prompt))
+
+            if math.isfinite(value) and value > 0:
+                return value
+
+            print("Enter a number greater than zero.")
+
+        except ValueError:
+            print("Enter a valid number.")
 
 def add_product(inventory):
     print("\nAdd New Product")
+    print("1. Physical Product")
+    print("2. Digital Product")
+
+    product_type = input("Choose product type: ").strip()
+
+    if product_type not in ("1", "2"):
+        print("Invalid product type.")
+        return
+
     product_id = read_non_empty("Product ID: ").upper()
 
     if inventory.search_product(product_id) is not None:
@@ -54,10 +76,27 @@ def add_product(inventory):
     price = read_price()
     stock = read_stock("Stock Quantity: ")
 
-    product = Product(product_id, name, price, stock)
+    if product_type == "1":
+        weight = read_positive_number("Weight in kg: ")
+
+        product = PhysicalProduct(
+            product_id, name, price, stock, weight
+        )
+
+    else:
+        download_size = read_positive_number(
+            "Download size in MB: "
+        )
+
+        product = DigitalProduct(
+            product_id, name, price, stock, download_size
+        )
+
     inventory.add_product(product)
 
     print("Product added successfully!")
+    product.display_information()
+    print(product.get_fulfilment_info())
 
 
 def update_stock(inventory):
