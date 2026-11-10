@@ -1,42 +1,46 @@
-[
-    {
-        "id": "P001",
-        "name": "Laptop",
-        "price": 1200.0,
-        "stock": 12,
-        "type": "physical",
-        "weight": 2.0
-    },
-    {
-        "id": "P002",
-        "name": "Mouse",
-        "price": 25.5,
-        "stock": 40,
-        "type": "physical",
-        "weight": 0.1
-    },
-    {
-        "id": "P003",
-        "name": "Keyboard",
-        "price": 45.0,
-        "stock": 25,
-        "type": "physical",
-        "weight": 0.8
-    },
-    {
-        "id": "P004",
-        "name": "mouse",
-        "price": 78.0,
-        "stock": 45,
-        "type": "physical",
-        "weight": 0.15
-    },
-    {
-        "id": "P005",
-        "name": "Book",
-        "price": 78.0,
-        "stock": 45,
-        "type": "physical",
-        "weight": 3.0
-    }
-]
+{
+    "version": 2,
+    "suppliers": [
+        {
+            "id": "1",
+            "name": "sam",
+            "contact_email": "sam123@gmail.com"
+        },
+        {
+            "id": "2",
+            "name": "john",
+            "contact_email": "john123@gmail.com"
+        }
+    ],
+    "products": [
+        {
+            "id": "3",
+            "name": "laptop",
+            "price": 34.0,
+            "stock": 56,
+            "supplier_id": "2",
+            "type": "physical",
+            "weight": 34.0
+        },
+        {
+            "id": "E-BOOK",
+            "name": "e-book",
+            "price": 45.0,
+            "stock": 67,
+            "supplier_id": "2",
+            "type": "digital",
+            "download_size": 3.0
+        }
+    ],
+    "inventories": [
+        {
+            "name": "store A",
+            "product_ids": []
+        },
+        {
+            "name": "store b",
+            "product_ids": []
+        }
+    ],
+    "orders": []
+}
