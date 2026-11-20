@@ -37,9 +37,26 @@ def read_number(prompt: str, positive: bool = False) -> float:
         except ValueError:
             pass
         if positive:
-            print("Enter a finite number greater than zero.")
+            print("Enter a number greater than zero.")
         else:
-            print("Enter a finite number of zero or more.")
+            print("Enter a number of zero or more.")
+
+def read_price() -> float:
+    while True:
+        try:
+            price = float(input("Price: "))
+        except ValueError:
+            print("Please enter a number.")
+            continue
+
+        try:
+            if not math.isfinite(price) or price <= 0:
+                raise ValueError("Price must be a number greater than zero.")
+        except ValueError as error:
+            print(error)
+            continue
+
+        return price
 
 
 def create_supplier(suppliers: dict[str, Supplier]) -> Supplier:
@@ -119,10 +136,10 @@ def create_product(
         return
     supplier = choose_supplier(suppliers)
     name = read_non_empty("Product name: ")
-    price = read_number("Price: ")
+    price = read_price()
     stock = read_integer("Stock quantity: ")
     product: Product
-    
+
     if product_type == "1":
         kind = "physical"
         extra_value = read_number("Weight in kg: ", positive=True)
