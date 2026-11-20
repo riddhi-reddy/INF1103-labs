@@ -14,6 +14,9 @@ class Product(ABC):
         self.__product_id: str = product_id
         self.__name: str = name
         self.__price: float = price
+        if price <= 0:
+            raise ValueError("Product price must be greater than zero.")
+        self.__price: float = price
         self.update_stock(stock)
         self.__supplier: Supplier = supplier
 
