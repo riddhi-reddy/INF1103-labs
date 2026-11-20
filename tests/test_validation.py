@@ -1,6 +1,6 @@
 import unittest
 
-from order_line import OrderLine
+from orders.order_line import OrderLine
 from products.physical_product import PhysicalProduct
 from supplier import Supplier
 

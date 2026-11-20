@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from inventory import Inventory
-from order import Order
+from orders.order import Order
 from products.digital_product import DigitalProduct
 from products.physical_product import PhysicalProduct
 from products.product import Product

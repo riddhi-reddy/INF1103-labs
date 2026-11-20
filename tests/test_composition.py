@@ -1,6 +1,6 @@
 from supplier import Supplier
 from products.physical_product import PhysicalProduct
-from order import Order
+from orders.order import Order
 
 
 def test_composition() -> None:
