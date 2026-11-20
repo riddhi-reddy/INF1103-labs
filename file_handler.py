@@ -4,10 +4,10 @@ from pathlib import Path
 
 from inventory import Inventory
 from order import Order
-from digital_product import DigitalProduct
-from physical_product import PhysicalProduct
-from product import Product
-from product_factory import ProductFactory
+from products.digital_product import DigitalProduct
+from products.physical_product import PhysicalProduct
+from products.product import Product
+from products.product_factory import ProductFactory
 from supplier import Supplier
 
 
