@@ -4,7 +4,7 @@ import math
 from file_handler import load_system, save_system
 from inventory import Inventory
 from order import Order
-from product import Product, PhysicalProduct, DigitalProduct
+from product import Product, PhysicalProduct, DigitalProduct, ProductFactory
 from supplier import Supplier
 
 
@@ -122,16 +122,18 @@ def create_product(
     price = read_number("Price: ")
     stock = read_integer("Stock quantity: ")
     product: Product
+    
     if product_type == "1":
-        product = PhysicalProduct(
-            product_id, name, price, stock,
-            read_number("Weight in kg: ", positive=True), supplier
-        )
+        kind = "physical"
+        extra_value = read_number("Weight in kg: ", positive=True)
     else:
-        product = DigitalProduct(
-            product_id, name, price, stock,
-            read_number("Download size in MB: ", positive=True), supplier
-        )
+        kind = "digital"
+        extra_value = read_number("Download size in MB: ", positive=True)
+
+    product = ProductFactory.create(
+        kind, product_id, name, price, stock, supplier, extra_value
+    )
+
     products[product_id] = product
     print("Product created in the catalogue.")
     print("To add it to an inventory, open Inventories from the main menu.")
