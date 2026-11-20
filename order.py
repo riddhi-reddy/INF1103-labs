@@ -1,6 +1,7 @@
 from product import Product
 from order_line import OrderLine
-from discount_strategy import DiscountStrategy, NoDiscount, PercentageDiscount, BulkDiscount, StudentDiscount
+from discount_strategy import DiscountStrategy
+from no_discount import NoDiscount
 
 
 class Order:
