@@ -1,7 +1,7 @@
 from supplier import Supplier
-from product import Product
-from physical_product import PhysicalProduct
-from digital_product import DigitalProduct
+from products.product import Product
+from products.physical_product import PhysicalProduct
+from products.digital_product import DigitalProduct
 from inventory import Inventory
 
 

@@ -1,4 +1,4 @@
-from product import Product
+from products.product import Product
 from supplier import Supplier
 from inventory import Inventory
 
