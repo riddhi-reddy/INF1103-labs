@@ -3,7 +3,7 @@ from pathlib import Path
 
 from inventory import Inventory
 from order import Order
-from product import Product, PhysicalProduct, DigitalProduct
+from product import Product, PhysicalProduct, DigitalProduct, ProductFactory
 from supplier import Supplier
 
 
@@ -27,22 +27,32 @@ def load_system() -> tuple[
 
     if not isinstance(data, dict) or data.get("version") != 2:
         raise ValueError("Expected the current version-2 inventory.json format.")
+
     for item in data["suppliers"]:
         suppliers[item["id"]] = Supplier(
             item["id"], item["name"], item["contact_email"]
         )
-    records = data["products"]
 
-    for item in records:
+    for item in data["products"]:
         supplier = suppliers[item["supplier_id"]]
-        details = (item["id"], item["name"], item["price"], item["stock"])
-        product: Product
-        if item["type"] == "physical":
-            product = PhysicalProduct(*details, item["weight"], supplier)
-        elif item["type"] == "digital":
-            product = DigitalProduct(*details, item["download_size"], supplier)
+        product_type = item["type"]
+
+        if product_type == "physical":
+            extra_value = item["weight"]
+        elif product_type == "digital":
+            extra_value = item["download_size"]
         else:
-            raise ValueError("Unknown product type.")
+            extra_value = 0.0  # The factory raises ValueError for unknown types.
+
+        product = ProductFactory.create(
+            product_type,
+            item["id"],
+            item["name"],
+            item["price"],
+            item["stock"],
+            supplier,
+            extra_value,
+        )
         products[product.get_product_id()] = product
 
     for item in data["inventories"]:
@@ -56,6 +66,7 @@ def load_system() -> tuple[
         if name in inventories:
             raise ValueError("Duplicate inventory name.")
         inventories[name] = inventory
+
     for item in data["orders"]:
         order = Order(item["id"])
         for line in item["lines"]:
