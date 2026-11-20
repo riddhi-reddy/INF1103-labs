@@ -1,6 +1,8 @@
 import unittest
 
-from product import DigitalProduct, PhysicalProduct, ProductFactory
+from digital_product import DigitalProduct
+from physical_product import PhysicalProduct
+from product_factory import ProductFactory
 from supplier import Supplier
 
 

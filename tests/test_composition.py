@@ -1,5 +1,5 @@
 from supplier import Supplier
-from product import PhysicalProduct
+from physical_product import PhysicalProduct
 from order import Order
 
 

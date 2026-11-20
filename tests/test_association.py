@@ -1,5 +1,5 @@
 from supplier import Supplier
-from product import PhysicalProduct, DigitalProduct
+from physical_product import PhysicalProduct
 
 
 def test_association() -> None:
