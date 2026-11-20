@@ -4,8 +4,8 @@ import math
 from file_handler import load_system, save_system
 from inventory import Inventory
 from order import Order
-from product import Product
-from product_factory import ProductFactory
+from products.product import Product
+from products.product_factory import ProductFactory
 from supplier import Supplier
 
 
