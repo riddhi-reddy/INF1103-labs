@@ -114,3 +114,24 @@ class DigitalProduct(Product):
 
     def get_fulfilment_info(self) -> str:
         return "This product is delivered digitally."
+
+class ProductFactory:
+    @staticmethod
+    def create(
+        product_type: str,
+        product_id: str,
+        name: str,
+        price: float,
+        stock_quantity: int,
+        supplier: Supplier,
+        extra_value: float,
+    ) -> Product:
+        if product_type == "physical":
+            return PhysicalProduct(
+                product_id, name, price, stock_quantity, extra_value, supplier
+            )
+        if product_type == "digital":
+            return DigitalProduct(
+                product_id, name, price, stock_quantity, extra_value, supplier
+            )
+        raise ValueError(f"Unknown product type: {product_type}")
