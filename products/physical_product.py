@@ -1,5 +1,5 @@
-from can_be_shipped import CanBeShipped
-from product import Product
+from products.can_be_shipped import CanBeShipped
+from products.product import Product
 from supplier import Supplier
 
 
